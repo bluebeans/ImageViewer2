@@ -23,12 +23,17 @@ static NSString * const reuseIdentifier = @"Cell";
     
     // Register cell classes
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
-    
+    self.collectionView.collectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
+
     // Do any additional setup after loading the view.
     images = [NSMutableArray new];
-    UIImage * image = [Utils getPictureByUrl: @"http://media-cache-ec2.pinimg.com/550x/9c/0f/e1/9c0fe176ef1f226b24731eb146a3dbac.jpg"];
+    images = [Utils getImages];
     
-    [images addObject: image];
+    //add pinch gesture handler
+    UIPinchGestureRecognizer * pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchCollection:)];
+    [self.view addGestureRecognizer:pinchGesture];
+
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,14 +66,57 @@ static NSString * const reuseIdentifier = @"Cell";
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
     // Configure the cell
-    
     UIImage * image = [images  objectAtIndex: indexPath.row];
-    UIImageView * cellImageView = [[UIImageView alloc] initWithFrame: CGRectMake(0, 0, image.size.width, image.size.height)];
-    //set image. delete this line if there's no before picking image in uipickercontroller
+    UIImageView * cellImageView = [UIImageView new];
+
     [cellImageView setImage: image];
     cell.backgroundView = cellImageView;
     
     return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UIImage *image = [images objectAtIndex:indexPath.row];
+
+    return CGSizeMake(image.size.width/5, image.size.height/5);
+}
+
+#pragma mark -- gesture handling
+- (void) pinchCollection: (id)sender
+{
+    UIPinchGestureRecognizer * gesture = (UIPinchGestureRecognizer *) sender;
+    
+    if (gesture.scale >= 0 && gesture.scale < 1)
+    {
+        //pinch in
+        [self stackImages];
+    }
+    else if (gesture.scale >= 1)
+    {
+        [self expandImages];
+    }
+}
+
+- (void) stackImages
+{
+    StackLayout * stackLayout = [[StackLayout alloc] init];
+    stackLayout.center_x = [NSNumber numberWithInt: self.view.bounds.size.width / 2];
+    stackLayout.center_y = [NSNumber numberWithInt: self.view.bounds.size.height / 2];
+    
+    self.collectionView.collectionViewLayout = stackLayout;
+
+    [self.collectionView performBatchUpdates:^{
+    } completion:nil];
+}
+
+- (void) expandImages
+{
+    self.collectionView.collectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
+
+    [self.collectionView performBatchUpdates:^{
+    } completion:nil];
+    
 }
 
 #pragma mark <UICollectionViewDelegate>

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Utils.h"
+#import "StackLayout.h"
 
 @interface ImageUICollectionViewController : UICollectionViewController
 

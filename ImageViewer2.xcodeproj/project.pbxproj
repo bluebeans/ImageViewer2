@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC7FF8BB1BE0374000FCE057 /* StackLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7FF8BA1BE0374000FCE057 /* StackLayout.m */; };
 		BCCFC6EC1BE01C5F004F8040 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCFC6EB1BE01C5F004F8040 /* main.m */; };
 		BCCFC6EF1BE01C5F004F8040 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCFC6EE1BE01C5F004F8040 /* AppDelegate.m */; };
 		BCCFC6F81BE01C5F004F8040 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCCFC6F61BE01C5F004F8040 /* Main.storyboard */; };
@@ -14,8 +15,8 @@
 		BCCFC6FD1BE01C5F004F8040 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BCCFC6FB1BE01C5F004F8040 /* LaunchScreen.storyboard */; };
 		BCCFC7081BE01C60004F8040 /* ImageViewer2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCFC7071BE01C60004F8040 /* ImageViewer2Tests.m */; };
 		BCCFC7131BE01C60004F8040 /* ImageViewer2UITests.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCFC7121BE01C60004F8040 /* ImageViewer2UITests.m */; };
-		BCCFC7221BE01D8D004F8040 /* ImageUICollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCFC7211BE01D8D004F8040 /* ImageUICollectionViewController.m */; settings = {ASSET_TAGS = (); }; };
-		BCCFC7251BE01E35004F8040 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCFC7241BE01E35004F8040 /* Utils.m */; settings = {ASSET_TAGS = (); }; };
+		BCCFC7221BE01D8D004F8040 /* ImageUICollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCFC7211BE01D8D004F8040 /* ImageUICollectionViewController.m */; };
+		BCCFC7251BE01E35004F8040 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = BCCFC7241BE01E35004F8040 /* Utils.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BC7FF8B91BE0374000FCE057 /* StackLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StackLayout.h; sourceTree = "<group>"; };
+		BC7FF8BA1BE0374000FCE057 /* StackLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StackLayout.m; sourceTree = "<group>"; };
 		BCCFC6E71BE01C5F004F8040 /* ImageViewer2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageViewer2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCCFC6EB1BE01C5F004F8040 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BCCFC6ED1BE01C5F004F8040 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -111,6 +114,8 @@
 				BCCFC6FB1BE01C5F004F8040 /* LaunchScreen.storyboard */,
 				BCCFC7231BE01E35004F8040 /* Utils.h */,
 				BCCFC7241BE01E35004F8040 /* Utils.m */,
+				BC7FF8B91BE0374000FCE057 /* StackLayout.h */,
+				BC7FF8BA1BE0374000FCE057 /* StackLayout.m */,
 				BCCFC7201BE01D8D004F8040 /* ImageUICollectionViewController.h */,
 				BCCFC7211BE01D8D004F8040 /* ImageUICollectionViewController.m */,
 				BCCFC6FE1BE01C5F004F8040 /* Info.plist */,
@@ -279,6 +284,7 @@
 				BCCFC6EC1BE01C5F004F8040 /* main.m in Sources */,
 				BCCFC7221BE01D8D004F8040 /* ImageUICollectionViewController.m in Sources */,
 				BCCFC7251BE01E35004F8040 /* Utils.m in Sources */,
+				BC7FF8BB1BE0374000FCE057 /* StackLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -423,6 +429,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Ni.ImageViewer2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -434,6 +441,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Ni.ImageViewer2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -504,6 +512,7 @@
 				BCCFC7191BE01C60004F8040 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BCCFC71A1BE01C60004F8040 /* Build configuration list for PBXNativeTarget "ImageViewer2Tests" */ = {
 			isa = XCConfigurationList;
@@ -512,6 +521,7 @@
 				BCCFC71C1BE01C60004F8040 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BCCFC71D1BE01C60004F8040 /* Build configuration list for PBXNativeTarget "ImageViewer2UITests" */ = {
 			isa = XCConfigurationList;
@@ -520,6 +530,7 @@
 				BCCFC71F1BE01C60004F8040 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

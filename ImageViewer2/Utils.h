@@ -11,5 +11,6 @@
 
 @interface Utils : NSObject
 
-+ (UIImage *) getPictureByUrl: (NSString *) url;
++(NSMutableArray *) getImages;
++ (UIImage *) getImageByUrl: (NSString *) url;
 @end
