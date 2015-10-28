@@ -37,6 +37,9 @@ static NSString * const reuseIdentifier = @"Cell";
     //add pinch gesture handler
     UIPinchGestureRecognizer * pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchCollection:)];
     [self.view addGestureRecognizer:pinchGesture];
+    
+    //listen to rotation event
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(OrientationDidChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
 
 }
 
@@ -83,11 +86,11 @@ static NSString * const reuseIdentifier = @"Cell";
         {
             [cellImageView setImage: image];
 
-            //UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(move:)];
-            [panRecognizer setMinimumNumberOfTouches:1];
-            [panRecognizer setMaximumNumberOfTouches:1];
-            [panRecognizer setDelegate:self];
-            [imageView_ addGestureRecognizer:panRecognizer];
+            //add drag and drop handler
+            UIPanGestureRecognizer * dragRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(moveImage:)];
+            [dragRecognizer setMinimumNumberOfTouches:1];
+            [dragRecognizer setMaximumNumberOfTouches:1];
+            [cellImageView addGestureRecognizer:dragRecognizer];
             
             cell.backgroundView = cellImageView;
         }
@@ -101,12 +104,24 @@ static NSString * const reuseIdentifier = @"Cell";
     UIImage *image = [images objectAtIndex:indexPath.row];
 
     //shrink the image to fit in screen
-    return CGSizeMake(image.size.width/4, image.size.height/4);
+    float ratio = image.size.width / image.size.height;
+    
+    //fit different number of pictures depends on screen size
+    int screenWidth = self.view.bounds.size.width;
+    if (self.view.bounds.size.width <= 320)
+    {
+        return CGSizeMake((self.view.bounds.size.width - 30) / COLUMN_NUMBER, (self.view.bounds.size.width - 30) / (COLUMN_NUMBER * ratio));
+    }
+    else
+    {
+        return CGSizeMake((self.view.bounds.size.width - 60) / COLUMN_NUMBER_MORE, (self.view.bounds.size.width - 0) / (COLUMN_NUMBER_MORE * ratio));
+    }
 }
+
 #pragma mark -- styling
 - (void) styleCollectionView
 {
-    UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
+    CustomFlowLayout * layout = [[CustomFlowLayout alloc] init];
     self.collectionView.collectionViewLayout = layout;
     [layout setSectionInset :UIEdgeInsetsMake(10, 10, 10, 10)];
 }
@@ -158,8 +173,42 @@ static NSString * const reuseIdentifier = @"Cell";
     
     [self.collectionView performBatchUpdates:^{
     } completion:nil];
+}
+
+- (void) moveImage: (id) sender
+{
+    CGPoint startPoint;
+    
+    CGPoint translatedPoint = [(UIPanGestureRecognizer*)sender translationInView:self.view];
+    
+    if ([(UIPanGestureRecognizer*)sender state] == UIGestureRecognizerStateBegan) {
+        startPoint.x = [[sender view] center].x;
+        startPoint.y = [[sender view] center].y;
+    }
+    
+    CGPoint endPoint = CGPointMake(startPoint.x + translatedPoint.x, startPoint.y + translatedPoint.y);
+    
+    NSInteger dragFromItemIndex = [Utils findClosestCellIndex: startPoint to: [self.collectionView.collectionViewLayout layoutAttributesForElementsInRect: self.view.bounds]];
     
     
+    NSInteger dragToItemIndex = [Utils findClosestCellIndex: endPoint to: [self.collectionView.collectionViewLayout layoutAttributesForElementsInRect: self.view.bounds]];
+    
+    
+}
+
+#pragma mark -- orientation change
+-(void)OrientationDidChange:(NSNotification*)notification
+{
+    UIDeviceOrientation Orientation=[[UIDevice currentDevice]orientation];
+
+    [self.collectionView reloadData];
+    if(Orientation==UIDeviceOrientationLandscapeLeft || Orientation==UIDeviceOrientationLandscapeRight)
+    {
+
+    }
+    else if(Orientation==UIDeviceOrientationPortrait)
+    {
+    }
 }
 
 #pragma mark <UICollectionViewDelegate>

@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#define COLUMN_NUMBER 2
+#define COLUMN_NUMBER_MORE 4
+
 @interface Utils : NSObject
 
 +(NSMutableArray *) getImages;

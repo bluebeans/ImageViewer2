@@ -10,12 +10,6 @@
 
 @implementation StackLayout
 
-- (CGSize)collectionViewContentSize
-{
-    CGSize contentSize = [super collectionViewContentSize];
-    
-    return contentSize;
-}
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
 {

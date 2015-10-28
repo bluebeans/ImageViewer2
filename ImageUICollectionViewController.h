@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Utils.h"
 #import "StackLayout.h"
+#import "CustomFlowLayout.h"
 
 @interface ImageUICollectionViewController : UICollectionViewController
 
