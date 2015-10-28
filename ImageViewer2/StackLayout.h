@@ -11,4 +11,5 @@
 @interface StackLayout : UICollectionViewFlowLayout
     @property NSNumber * center_x; //center x of the stack
     @property NSNumber * center_y; //center y of the stack
+    @property NSInteger firstCell; //the cell that the first touch point is closest to
 @end

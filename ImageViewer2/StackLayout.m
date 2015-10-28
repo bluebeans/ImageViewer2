@@ -23,10 +23,11 @@
     
     for (UICollectionViewLayoutAttributes * attributes in attributesArray)
     {
+        //display everything in the center
         attributes.center = CGPointMake([_center_x intValue], [_center_y intValue]);
         
-        //first image is on top, everything else is behind it
-        attributes.zIndex = attributes.indexPath.row == 0 ? 1.0 : 0.0;
+        //first image is on top, everything else is at bottom
+        attributes.zIndex = (attributes.indexPath.row == _firstCell ? 1.0 : 0.0);
     }
     
     return attributesArray;

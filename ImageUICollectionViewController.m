@@ -27,9 +27,7 @@ static NSString * const reuseIdentifier = @"Cell";
     // Do any additional setup after loading the view.
 
     //style the collection view a bit
-    UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
-    self.collectionView.collectionViewLayout = layout;
-    [layout setSectionInset :UIEdgeInsetsMake(10, 10, 10, 10)];
+    [self styleCollectionView];
     
     self.collectionView.backgroundColor = [UIColor colorWithRed:0.88 green:0.96 blue:0.91 alpha:1.0];
     
@@ -85,6 +83,12 @@ static NSString * const reuseIdentifier = @"Cell";
         {
             [cellImageView setImage: image];
 
+            //UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(move:)];
+            [panRecognizer setMinimumNumberOfTouches:1];
+            [panRecognizer setMaximumNumberOfTouches:1];
+            [panRecognizer setDelegate:self];
+            [imageView_ addGestureRecognizer:panRecognizer];
+            
             cell.backgroundView = cellImageView;
         }
     }
@@ -97,7 +101,14 @@ static NSString * const reuseIdentifier = @"Cell";
     UIImage *image = [images objectAtIndex:indexPath.row];
 
     //shrink the image to fit in screen
-    return CGSizeMake(image.size.width/5, image.size.height/5);
+    return CGSizeMake(image.size.width/4, image.size.height/4);
+}
+#pragma mark -- styling
+- (void) styleCollectionView
+{
+    UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
+    self.collectionView.collectionViewLayout = layout;
+    [layout setSectionInset :UIEdgeInsetsMake(10, 10, 10, 10)];
 }
 
 #pragma mark -- gesture handling
@@ -108,20 +119,31 @@ static NSString * const reuseIdentifier = @"Cell";
     if (gesture.scale >= 0 && gesture.scale < 1)
     {
         //pinch in
-        [self stackImages];
+        
+        //find out location of touches
+        CGPoint firstTouchPoint = [sender locationOfTouch: 0 inView: self.collectionView];
+        
+        //find out to which cells are the touches next to
+        NSInteger firstCell = [Utils findClosestCellIndex: firstTouchPoint to: [self.collectionView.collectionViewLayout layoutAttributesForElementsInRect: self.view.bounds]];
+
+
+        [self stackImages: firstCell];
     }
     else if (gesture.scale >= 1)
     {
+        //pinch out
         [self expandImages];
     }
 }
 
 //stack images to center of the view
-- (void) stackImages
+- (void) stackImages: (NSInteger) firstCell
 {
     StackLayout * stackLayout = [[StackLayout alloc] init];
     stackLayout.center_x = [NSNumber numberWithInt: self.view.bounds.size.width / 2];
     stackLayout.center_y = [NSNumber numberWithInt: self.view.bounds.size.height / 2];
+    stackLayout.firstCell = firstCell; //first finger is closest to this cell
+
     
     self.collectionView.collectionViewLayout = stackLayout;
 
@@ -132,10 +154,11 @@ static NSString * const reuseIdentifier = @"Cell";
 //expand images back to normal
 - (void) expandImages
 {
-    self.collectionView.collectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
-
+    [self styleCollectionView];
+    
     [self.collectionView performBatchUpdates:^{
     } completion:nil];
+    
     
 }
 

@@ -63,4 +63,26 @@
     
 }
 
++ (NSInteger) findClosestCellIndex: (CGPoint) touchPoint to: (NSArray *) attributesArray
+{
+    float minDistance = 500.0; //set it to a big number
+    NSInteger cellIndex = 0;
+    
+    for (UICollectionViewLayoutAttributes * attributes in attributesArray)
+    {
+        CGPoint centerOfAttributes =  CGPointMake(attributes.frame.origin.x + (attributes.frame.size.width / 2), attributes.frame.origin.y + (attributes.frame.size.height / 2));
+        
+        float distance = sqrt((touchPoint.x - centerOfAttributes.x) * (touchPoint.x - centerOfAttributes.x) + (touchPoint.y - centerOfAttributes.y) * (touchPoint.y - centerOfAttributes.y));
+        
+        if (distance <= minDistance)
+        {
+            minDistance = distance;
+            cellIndex = attributes.indexPath.row;
+        }
+        
+    }
+    return cellIndex;
+}
+
+
 @end
