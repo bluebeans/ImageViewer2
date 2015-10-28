@@ -108,17 +108,17 @@ static NSString * const reuseIdentifier = @"Cell";
     
     //fit different number of pictures depends on screen size
     int screenWidth = self.view.bounds.size.width;
-    if (self.view.bounds.size.width <= 320)
+    if (screenWidth <= 320) //an artificial number for iphone 5, change to be more general
     {
         return CGSizeMake((self.view.bounds.size.width - 30) / COLUMN_NUMBER, (self.view.bounds.size.width - 30) / (COLUMN_NUMBER * ratio));
     }
     else
     {
-        return CGSizeMake((self.view.bounds.size.width - 60) / COLUMN_NUMBER_MORE, (self.view.bounds.size.width - 0) / (COLUMN_NUMBER_MORE * ratio));
+        return CGSizeMake((self.view.bounds.size.width - 60) / COLUMN_NUMBER_MORE, (self.view.bounds.size.width - 60) / (COLUMN_NUMBER_MORE * ratio));
     }
 }
 
-#pragma mark -- styling
+#pragma mark <Styling>
 - (void) styleCollectionView
 {
     CustomFlowLayout * layout = [[CustomFlowLayout alloc] init];
@@ -126,7 +126,7 @@ static NSString * const reuseIdentifier = @"Cell";
     [layout setSectionInset :UIEdgeInsetsMake(10, 10, 10, 10)];
 }
 
-#pragma mark -- gesture handling
+#pragma mark <Gesture Handling>
 - (void) pinchCollection: (id)sender
 {
     UIPinchGestureRecognizer * gesture = (UIPinchGestureRecognizer *) sender;
@@ -157,7 +157,7 @@ static NSString * const reuseIdentifier = @"Cell";
     StackLayout * stackLayout = [[StackLayout alloc] init];
     stackLayout.center_x = [NSNumber numberWithInt: self.view.bounds.size.width / 2];
     stackLayout.center_y = [NSNumber numberWithInt: self.view.bounds.size.height / 2];
-    stackLayout.firstCell = firstCell; //first finger is closest to this cell
+    stackLayout.firstCell = firstCell; //first finger (thumb usually) is closest to this cell
 
     
     self.collectionView.collectionViewLayout = stackLayout;
@@ -175,6 +175,7 @@ static NSString * const reuseIdentifier = @"Cell";
     } completion:nil];
 }
 
+//started with drag and drop, in progress
 - (void) moveImage: (id) sender
 {
     CGPoint startPoint;
@@ -196,7 +197,7 @@ static NSString * const reuseIdentifier = @"Cell";
     
 }
 
-#pragma mark -- orientation change
+#pragma mark <Orientation Change>
 -(void)OrientationDidChange:(NSNotification*)notification
 {
     UIDeviceOrientation Orientation=[[UIDevice currentDevice]orientation];
