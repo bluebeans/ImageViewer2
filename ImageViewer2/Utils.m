@@ -54,4 +54,13 @@
     return image;
 }
 
++ (void)addBorderToImage: (UIImageView *) imageView withColor: (UIColor *) color borderWidth: (float) width
+{
+    
+    //add border
+    [imageView.layer setBorderColor: [color CGColor]];
+    [imageView.layer setBorderWidth: width];
+    
+}
+
 @end

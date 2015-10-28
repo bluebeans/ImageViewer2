@@ -23,17 +23,23 @@ static NSString * const reuseIdentifier = @"Cell";
     
     // Register cell classes
     [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
-    self.collectionView.collectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
 
     // Do any additional setup after loading the view.
-    images = [NSMutableArray new];
+
+    //style the collection view a bit
+    UICollectionViewFlowLayout * layout = [[UICollectionViewFlowLayout alloc] init];
+    self.collectionView.collectionViewLayout = layout;
+    [layout setSectionInset :UIEdgeInsetsMake(10, 10, 10, 10)];
+    
+    self.collectionView.backgroundColor = [UIColor colorWithRed:0.88 green:0.96 blue:0.91 alpha:1.0];
+    
+    //get images from network, this could take time, should optimize
     images = [Utils getImages];
     
     //add pinch gesture handler
     UIPinchGestureRecognizer * pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchCollection:)];
     [self.view addGestureRecognizer:pinchGesture];
 
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,11 +72,22 @@ static NSString * const reuseIdentifier = @"Cell";
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     
     // Configure the cell
-    UIImage * image = [images  objectAtIndex: indexPath.row];
-    UIImageView * cellImageView = [UIImageView new];
+    if (images.count > 0)
+    {
+        UIImage * image = [images objectAtIndex: indexPath.row];
+        UIImageView * cellImageView = [UIImageView new];
+        
+        //add border to the picture
+        [Utils addBorderToImage: cellImageView withColor: [UIColor lightGrayColor] borderWidth: 2.0];
 
-    [cellImageView setImage: image];
-    cell.backgroundView = cellImageView;
+
+        if (image != nil)
+        {
+            [cellImageView setImage: image];
+
+            cell.backgroundView = cellImageView;
+        }
+    }
     
     return cell;
 }
@@ -79,6 +96,7 @@ static NSString * const reuseIdentifier = @"Cell";
 {
     UIImage *image = [images objectAtIndex:indexPath.row];
 
+    //shrink the image to fit in screen
     return CGSizeMake(image.size.width/5, image.size.height/5);
 }
 
@@ -98,6 +116,7 @@ static NSString * const reuseIdentifier = @"Cell";
     }
 }
 
+//stack images to center of the view
 - (void) stackImages
 {
     StackLayout * stackLayout = [[StackLayout alloc] init];
@@ -110,6 +129,7 @@ static NSString * const reuseIdentifier = @"Cell";
     } completion:nil];
 }
 
+//expand images back to normal
 - (void) expandImages
 {
     self.collectionView.collectionViewLayout = [[UICollectionViewFlowLayout alloc] init];

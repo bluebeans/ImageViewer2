@@ -13,4 +13,5 @@
 
 +(NSMutableArray *) getImages;
 + (UIImage *) getImageByUrl: (NSString *) url;
++ (void)addBorderToImage: (UIImageView *) imageView withColor: (UIColor *) color borderWidth: (float) width;
 @end

@@ -13,6 +13,7 @@
 - (CGSize)collectionViewContentSize
 {
     CGSize contentSize = [super collectionViewContentSize];
+    
     return contentSize;
 }
 
@@ -24,6 +25,8 @@
     {
         attributes.center = CGPointMake([_center_x intValue], [_center_y intValue]);
         
+        //first image is on top, everything else is behind it
+        attributes.zIndex = attributes.indexPath.row == 0 ? 1.0 : 0.0;
     }
     
     return attributesArray;

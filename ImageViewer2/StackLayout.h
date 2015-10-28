@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface StackLayout : UICollectionViewFlowLayout
-    @property NSNumber * center_x;
-    @property NSNumber * center_y;
+    @property NSNumber * center_x; //center x of the stack
+    @property NSNumber * center_y; //center y of the stack
 @end
